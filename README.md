@@ -1,1 +1,2 @@
-# magic-decor-ci
+# Assignment for Magic Decor
+
