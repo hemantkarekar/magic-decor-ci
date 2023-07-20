@@ -81,6 +81,7 @@ class Pages extends CI_Controller
 
 			case '6':
 				$jpgPath = 'https://magicdecor.com/wp-content/uploads/2023/02/image-1680791000-822.jpg';
+				$jpgPath = 'https://magicdecor.com/wp-content/uploads/2023/02/image-1683789598-5898.jpg';
 				$pngPath = 'https://magicdecor.com/wp-content/themes/magicwall/assets/images/mockup/mockup-2.png';
 				$outputPath = FCPATH . 'output.jpg';
 

@@ -99,31 +99,59 @@ class Functions_model extends CI_Model
 
     function closest_color($hexColor) 
     {
-        
+        // Define the RGB values for the three colors
+        $colors = array(
+            'rgb(12,14,221)' => array(12, 14, 221),    // Red
+            'rgb(112,87,97)' => array(112, 87, 97),    // Green
+            'rgb(23,76,45)' => array(23, 76, 45)     // Blue
+        );
+    
+        // Convert the hex color code to RGB
+        $inputColor = sscanf($hexColor, "%2x%2x%2x");
+    
+        // Calculate the distance between the input color and each predefined color
+        $closestColor = null;
+        $closestDistance = PHP_INT_MAX;
+    
+        foreach ($colors as $key => $color) {
+            // Distance Formula
+            $distance = sqrt(
+                pow($inputColor[0] - $color[0], 2) +
+                pow($inputColor[1] - $color[1], 2) +
+                pow($inputColor[2] - $color[2], 2)
+            );
+    
+            if ($distance < $closestDistance) {
+                $closestColor = $key;
+                $closestDistance = $distance;
+            }
+        }
+        return $closestColor;
     }
     
 
-    function set_background($jpgPath, $pngPath, $outputPath) {
+    function set_background($jpgURL, $pngURL, $outputURL) {
         //JPG Background
-        $jpgImage = imagecreatefromjpeg($jpgPath);
+        $jpgImg = imagecreatefromjpeg($jpgURL);
         
-        $jpgWidth = imagesx($jpgImage);
-        $jpgHeight = imagesy($jpgImage);
+        $jpgWidth = imagesx($jpgImg);
+        $jpgHeight = imagesy($jpgImg);
         
         //PNG Object
-        $pngImage = imagecreatefrompng($pngPath);
+        $pngImg = imagecreatefrompng($pngURL);
         
-        $pngWidth = imagesx($pngImage);
-        $pngHeight = imagesy($pngImage);
+        $pngWidth = imagesx($pngImg);
+        $pngHeight = imagesy($pngImg);
         
-        // $startX = 0;
-        // $startY = imagesy($jpgImage) - $pngHeight;
+        $startX = 0;
+        $startY = imagesy($jpgImg) - $pngHeight;
         
-        // imagecopy($jpgImage, $pngImage, $startX, $startY, 0, 0, $pngWidth, $pngHeight);
-        imagecopy($jpgImage, $pngImage, 0, 0, 0, 0, $pngWidth, $pngHeight);
+        // imagecopy(GdImage $dst_image, GdImage $src_image, int $dst_x, int $dst_y, int $src_x, int $src_y, int $src_width, int $src_height ): bool
+        imagecopy($jpgImg, $pngImg, $startX, $startY, 0, 0, $pngWidth, $pngHeight);
         
         // Save the merged image
-        imagejpeg($jpgImage, $outputPath, 100);
+        imagejpeg($jpgImg, $outputURL, 100);
+        
     }
     
 
